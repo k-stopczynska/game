@@ -19,11 +19,20 @@ public class Panel extends JPanel implements Runnable {
     final int SCREEN_HEIGHT = TILE_SIZE * MAX_SCREEN_ROW;
 
     Thread thread;
+    KeyHandler keyHandler = new KeyHandler();
+
+    int FPS = 60;
+
+    int playerX = 100;
+    int playerY = 100;
+    int playerSpeed = 4;
 
     public Panel() {
         this.setPreferredSize(new DimensionUIResource(SCREEN_WIDTH, SCREEN_HEIGHT));
         this.setBackground(Color.BLACK);
         this.setDoubleBuffered(true);
+        this.addKeyListener(keyHandler);
+        this.setFocusable(true);
     }
 
     public void startThread() {
@@ -33,14 +42,38 @@ public class Panel extends JPanel implements Runnable {
 
     @Override
     public void run() {
+
+        double drawInterval = 1000000000 / FPS;
+        double delta = 0;
+        long lastTime = System.nanoTime();
+        long currentTime;
+
         while (thread != null) {
-            update();
-            repaint();
+            currentTime = System.nanoTime();
+            delta += (currentTime - lastTime) / drawInterval;
+            lastTime = currentTime;
+            if (delta > 1) {
+                update();
+                repaint();
+                delta--;
+            }  
+       
         }
     }
     
     public void update() {
-        System.out.println("updating");
+        if (keyHandler.upPressed) {
+            playerY -= playerSpeed;
+        }
+        if (keyHandler.downPressed) {
+            playerY += playerSpeed;
+        }
+        if (keyHandler.leftPressed) {
+            playerX -= playerSpeed;
+        }
+        if (keyHandler.rightPressed) {
+            playerX += playerSpeed;
+        }
     }
 
     public void paintComponent(Graphics graphics) {
@@ -48,7 +81,7 @@ public class Panel extends JPanel implements Runnable {
 
         Graphics2D graphics2D = (Graphics2D) graphics;
         graphics2D.setColor(Color.PINK);
-        graphics2D.fillRect(100, 100, TILE_SIZE, TILE_SIZE);
+        graphics2D.fillRect(playerX, playerY, TILE_SIZE, TILE_SIZE);
         graphics2D.dispose();
     }
 }
