@@ -1,12 +1,10 @@
 package org.tile;
 
 import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
 
@@ -22,11 +20,12 @@ public class TileManager {
         tile = new Tile[10];
         map = new int[panel.MAX_SCREEN_COL][panel.MAX_SCREEN_ROW];
         getTileImages();
+        loadMap("/maps/map01.txt");
     }
 
-    public void loadMap() {
+    public void loadMap(String mapFilePath) {
         try {
-            InputStream inputStream = getClass().getResourceAsStream("/maps/map01.txt");
+            InputStream inputStream = getClass().getResourceAsStream(mapFilePath);
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
             int col = 0;
             int row = 0;
@@ -70,8 +69,7 @@ public class TileManager {
     };
 
     public void draw(Graphics2D graphics2D) {
-        this.loadMap();
-
+    
         int col = 0;
         int row = 0;
         int x = 0;
