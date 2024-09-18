@@ -38,9 +38,9 @@ public class Player extends Entity {
             left2 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("player/player_left_2.png"));
             right1 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("player/player_right_1.png"));
             right2 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("player/player_right_2.png"));
-        } catch(IOException e) {
+        } catch(IOException ioe) {
             System.out.println("There was an exception while loading images");
-            e.printStackTrace();
+            ioe.printStackTrace();
         } catch (Exception e) {
             System.out.println("There was another exception");
             e.printStackTrace();
