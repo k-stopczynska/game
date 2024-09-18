@@ -78,7 +78,8 @@ public class TileManager {
         int y = 0;
 
         while (col < panel.MAX_SCREEN_COL && row < panel.MAX_SCREEN_ROW) {
-            graphics2D.drawImage(tile[map[col][row]].image, x, y, panel.TILE_SIZE, panel.TILE_SIZE, null);
+            int type = map[col][row];
+            graphics2D.drawImage(tile[type].image, x, y, panel.TILE_SIZE, panel.TILE_SIZE, null);
             x += panel.TILE_SIZE;
             col++;
             if (col == panel.MAX_SCREEN_COL) {
